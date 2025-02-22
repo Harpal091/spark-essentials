@@ -105,3 +105,5 @@ object DataFramesBasics extends App {
   moviesDF.printSchema()
   println(s"The Movies DF has ${moviesDF.count()} rows")
 }
+
+
