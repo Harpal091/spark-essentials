@@ -86,24 +86,50 @@ object DataFramesBasics extends App {
     *   - print its schema
     *   - count the number of rows, call count()
     */
-
-  // 1
   val smartphones = Seq(
-    ("Samsung", "Galaxy S10", "Android", 12),
-    ("Apple", "iPhone X", "iOS", 13),
-    ("Nokia", "3310", "THE BEST", 0)
+    ("2018", "Nokia 1120", "80*20", "40MP"),
+    ("2018", "Nokia 1120", "80*20", "40MP"),
+    ("2018", "Nokia 1120", "80*20", "40MP"),
+    ("2018", "Nokia 1120", "80*20", "40MP"),
+    ("2018", "Nokia 1120", "80*20", "40MP")
   )
 
-  val smartphonesDF = smartphones.toDF("Make", "Model", "Platform", "CameraMegapixels")
+  val smartphonesDF= spark.createDataFrame(smartphones)
   smartphonesDF.show()
 
-  // 2
-  val moviesDF = spark.read
+  val moviesDF= spark.read
     .format("json")
     .option("inferSchema", "true")
     .load("src/main/resources/data/movies.json")
+
   moviesDF.printSchema()
-  println(s"The Movies DF has ${moviesDF.count()} rows")
+  print(moviesDF.count())
+
+
+
+
+
+
+
+
+
+  // 1
+//  val smartphones = Seq(
+//    ("Samsung", "Galaxy S10", "Android", 12),
+//    ("Apple", "iPhone X", "iOS", 13),
+//    ("Nokia", "3310", "THE BEST", 0)
+//  )
+
+//  val smartphonesDF = smartphones.toDF("Make", "Model", "Platform", "CameraMegapixels")
+//  smartphonesDF.show()
+//
+  // 2
+//  val moviesDF = spark.read
+//    .format("json")
+//    .option("inferSchema", "true")
+//    .load("src/main/resources/data/movies.json")
+//  moviesDF.printSchema()
+//  println(s"The Movies DF has ${moviesDF.count()} rows")
 }
 
 
