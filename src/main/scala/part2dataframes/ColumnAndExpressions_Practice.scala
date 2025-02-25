@@ -100,5 +100,28 @@ object ColumnAndExpressions_Practice extends  App{
    */
 
 
+  val moviesDF = spark.read
+    .format("json")
+    .option("inferSchema", "true")
+    .load("src/main/resources/data/movies.json")
 
+  moviesDF.printSchema()
+
+  moviesDF.select("Title", "Worldwide_Gross").show()
+  moviesDF.select(col("Title"), col("Worldwide_Gross")).show()
+  moviesDF.selectExpr("Title", "Worldwide_Gross").show()
+
+//  moviesDF.selectExpr("Title", "Worldwide_Gross+US_DVD_Sales+US_Gross").show()
+
+  val totalProfit= moviesDF.col("Worldwide_Gross") + moviesDF.col("US_DVD_Sales") + moviesDF.col("US_Gross")
+
+  moviesDF.select(col("Title"), (col("US_Gross") + col("Worldwide_Gross")).as("Total_Gross")).show()
+
+  moviesDF.selectExpr("Title", "Worldwide_Gross + US_Gross as Total_Gross").show()
+
+  moviesDF.select("Title", "US_Gross", "Worldwide_Gross")
+    .withColumn("Total_Gross", col("US_Gross") + col("Worldwide_Gross")).show()
+
+
+  moviesDF.filter( col("IMDB_Rating")>6 and  col("Major_Genre")==="Comedy").show()
 }
